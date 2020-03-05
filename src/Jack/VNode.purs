@@ -1,13 +1,14 @@
 module Jack.VNode where
 
-import Prelude
-import Data.Function.Uncurried (Fn2, Fn3, Fn4, Fn8, runFn2, runFn3, runFn4, runFn8)
-import Data.Tuple (Tuple)
+import Data.Function.Uncurried (Fn7, runFn7)
 
 data Node msg = Node
 
+foreign import createVNode :: forall msg a. Fn7 String String (Array (Node msg)) Int (Array a) String String (Node msg)
+foreign import textNode :: forall msg. String -> Node msg
 
-foreign import createVNode :: forall msg a. Fn8 Int String String (Array (Node msg)) Int (Array a) String String (Node msg)
+node :: forall msg a. String -> String -> Array (Node msg) -> Int -> Array a -> String -> String -> Node msg
+node = runFn7 createVNode
 
-node :: forall msg a. Int -> String -> String -> Array (Node msg) -> Int -> Array a -> String -> String -> Node msg
-node = runFn8 createVNode
+-- text :: forall msg a. String -> String -> Array (Node msg) -> Int -> Array a -> String -> String -> Node msg
+-- text = runFn7 textNode

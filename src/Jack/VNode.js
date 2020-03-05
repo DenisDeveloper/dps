@@ -16,8 +16,17 @@ function V(childFlags, children, className, flags, key, props, ref, type) {
   this.type = type;
 }
 
+exports.textNode = function(value) {
+  const vNode = new V(16, value, null, 1, null, null, null, "div");
+
+  if (options.createVNode) {
+    options.createVNode(vNode);
+  }
+
+  return vNode;
+};
+
 exports.createVNode = function(
-  flags,
   type,
   className,
   children,
@@ -27,14 +36,15 @@ exports.createVNode = function(
   ref
 ) {
   const childFlag = childFlags === void 0 ? 1 : childFlags;
+  // const vNode = new V(childFlag, children, className, 1, key, props, ref, type);
   const vNode = new V(
     childFlag,
     children,
     className,
-    flags,
-    key,
-    props,
-    ref,
+    1,
+    null,
+    null,
+    null,
     type
   );
 

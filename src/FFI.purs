@@ -1,6 +1,6 @@
 module FFI where
 
-import Prelude
+import Data.Unit (Unit)
 
 import Effect (Effect)
 
