@@ -27,7 +27,6 @@
   "dependencies": {
     "common": "^0.2.5",
     "normalize.css": "^8.0.1",
-    "soundcloud": "^3.3.2",
     "text-encoding": "^0.7.0"
   }
 }

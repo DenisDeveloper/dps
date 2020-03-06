@@ -56,19 +56,17 @@ function mountElement(vNode, parentDOM, nextNode, lifecycle) {
 }
 
 const _mount = function(vNode, parentDOM, nextNode, lifecycle) {
-  const flags = (vNode.flags |= VNodeFlags.InUse);
+  // const flags = (vNode.flags |= VNodeFlags.InUse);
 
-  if (flags & VNodeFlags.Element) {
+  // if (flags & VNodeFlags.Element) {
+  //   mountElement(vNode, parentDOM, nextNode, lifecycle);
+  // } else if (flags & VNodeFlags.Void || flags & VNodeFlags.Text) {
+  //   mountText(vNode, parentDOM, nextNode);
+  // }
+  if (vNode.flags === 1) {
     mountElement(vNode, parentDOM, nextNode, lifecycle);
-  } else if (flags & VNodeFlags.ComponentFunction) {
-    mountFunctionalComponent(vNode, parentDOM, nextNode, lifecycle);
-    mountFunctionalComponentCallbacks(vNode, lifecycle);
-  } else if (flags & VNodeFlags.Void || flags & VNodeFlags.Text) {
+  } else if (vNode.flags === 0) {
     mountText(vNode, parentDOM, nextNode);
-  } else if (flags & VNodeFlags.Fragment) {
-    mountFragment(vNode, parentDOM, nextNode, lifecycle);
-  } else if (flags & VNodeFlags.Portal) {
-    mountPortal(vNode, parentDOM, nextNode, lifecycle);
   }
 };
 

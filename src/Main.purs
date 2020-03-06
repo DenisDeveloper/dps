@@ -1,10 +1,11 @@
 module Main where
 
-import Data.Unit (Unit)
+-- import Data.Unit (Unit)
 import Effect (Effect)
--- import Effect.Console (log)
+import Effect.Console (log)
 -- import FFI (_log)
 import Jack.Html  as J
+import Prelude
 
 bar :: forall msg. J.Html msg
 bar = J.text "fffgg"
@@ -17,7 +18,7 @@ root = J.findElement "root"
 
 main :: Effect Unit
 main = do
-  J.render foo root
+  log "main"
+  -- J.render foo root
   -- _log bar
   -- _log $ Jack.render foo root
-  -- log "main"

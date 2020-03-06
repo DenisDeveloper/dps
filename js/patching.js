@@ -2,6 +2,7 @@ const VNodeFlags = require("./flags.js").VNodeFlags;
 const ChildFlags = require("./flags.js").ChildFlags;
 
 const common = require("./common.js");
+const mount = require("./mounting.js").mount;
 
 // import {
 //   EMPTY_OBJ,
@@ -286,14 +287,16 @@ const patchElement = (lastVNode, nextVNode, nextFlags, lifecycle) => {
 };
 
 _patch = function(lastVNode, nextVNode, parentDOM, nextNode, lifecycle) {
+  console.log(nextVNode);
+  console.log(lastVNode);
   const nextFlags = (nextVNode.flags |= VNodeFlags.InUse);
 
   if (
-    lastVNode.flags !== nextFlags ||
+    lastVNode.flags !== nextVNode.flags ||
     lastVNode.type !== nextVNode.type ||
-    lastVNode.key !== nextVNode.key ||
-    nextFlags & VNodeFlags.ReCreate
+    lastVNode.key !== nextVNode.key
   ) {
+    // console.log("1");
     if (lastVNode.flags & VNodeFlags.InUse) {
       replaceWithNewNode(lastVNode, nextVNode, parentDOM, lifecycle);
     } else {
@@ -301,32 +304,10 @@ _patch = function(lastVNode, nextVNode, parentDOM, nextNode, lifecycle) {
     }
   } else if (nextFlags & VNodeFlags.Element) {
     patchElement(lastVNode, nextVNode, nextFlags, lifecycle);
-  } else if (nextFlags & VNodeFlags.ComponentClass) {
-    patchClassComponent(
-      lastVNode,
-      nextVNode,
-      parentDOM,
-      context,
-      isSVG,
-      nextNode,
-      lifecycle
-    );
-  } else if (nextFlags & VNodeFlags.ComponentFunction) {
-    patchFunctionalComponent(
-      lastVNode,
-      nextVNode,
-      parentDOM,
-      nextNode,
-      lifecycle
-    );
   } else if (nextFlags & VNodeFlags.Text) {
     patchText(lastVNode, nextVNode);
   } else if (nextFlags & VNodeFlags.Void) {
     nextVNode.dom = lastVNode.dom;
-  } else if (nextFlags & VNodeFlags.Fragment) {
-    patchFragment(lastVNode, nextVNode, parentDOM, lifecycle);
-  } else {
-    patchPortal(lastVNode, nextVNode, lifecycle);
   }
 };
 
